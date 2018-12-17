@@ -10,9 +10,20 @@ import os #imported the Os library
 import pandas as pd #imported pandas library as pd
 import matplotlib.pyplot as plt #imported matplotlib library as plt
 import numpy as np #imported numpy library as np
-os.chdir('/home/anzal/Documents/python_trial/') #changd the workingdirectory to the file path
+import Tkinter, tkFileDialog
+root = Tkinter.Tk()
+root.withdraw()
+dirname = tkFileDialog.askdirectory(parent=root,initialdir="/",title='Please select a directory')
+os.chdir(dirname) #changd the workingdirectory to the file path
+
+file_list = []
+for file in os.listdir(dirname):
+    if file.endswith(".dat"):
+        file_list.append(os.path.join(dirname, file))
+print(file_list)
+    
 hn=["timestamp_camera","timestamp_arduino","frame_no", "trial_count_", "puff", "tone", "led", "motion1", "motion2", "camera", "microscope", "trial_state_","Eye_pixel"] #made an array with header names
-rd= pd.read_csv('/home/anzal/Documents/python_trial/791_S_401/trial_001.tif_data.dat', names=hn) #import CSV as variable rd, with the header as hn
+rd= pd.read_csv(file_list, names=hn) #import CSV as variable rd, with the header as hn
 rd = rd.dropna() #to remove all the rows with NAs
 rd= rd.applymap(lambda x: x.replace("['","")) #removed different things
 rd= rd.applymap(lambda x: x.replace("']",""))
