@@ -19,3 +19,15 @@ ax1.set_xlabel('time')
 ax1.set_ylabel('angular velocity', color=color)
 ax1.plot(rd.time.dt.time, rd['angular_vel'], color=color)
 ax1.tick_params(axis='y', labelcolor=color)
+
+
+g=min(rd.angular_vel)
+tc=rd[rd.angular_vel==g].index.values[0]
+f=rd[rd.index < tc]
+
+fig, ax1 = plt.subplots()
+color = 'red'
+ax1.set_xlabel('time')
+ax1.set_ylabel('angular velocity', color=color)
+ax1.plot(f.time.dt.time, f.angular_vel, color=color)
+ax1.tick_params(axis='y', labelcolor=color)
