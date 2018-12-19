@@ -18,6 +18,8 @@ def Set_wd():
     x = askdirectory()    
     os.chdir(x)
     Set_wd.x=x
+
+Set_wd()
     
 dirname = Set_wd.x
 
@@ -50,3 +52,8 @@ print(file_list)
     
 for file_name in file_list:
     plot_time_ang_vel (file_name)
+    print(file_name)
+    
+y=str(len(file_list))
+
+print("Finished plotting "+y+" files")
