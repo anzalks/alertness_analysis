@@ -35,18 +35,14 @@ def plot_time_ang_vel(file_name):
     tc=rd[rd.angular_vel==g].index.values[0]
     h=rd[rd.index < tc]
     f=h[h.angular_vel < 0]
-    dif_tim = pd.DataFrame.diff(f.time)
-    t = ((dif_tim.dt.microseconds) * (f.angular_vel))/1000000
-    t=t.astype(float)
-    t = pd.DataFrame(t, columns=['ang_disp'])
-    t = abs(t)
+    w=abs(f.encoder_val*(6.28/2400))# encoder value*(2pi/2400) instantanious angle value
     ang_vel = abs(f.angular_vel)
     
     fig, ax1 = plt.subplots()
     color = 'red'
-    ax1.set_xlabel('time')
-    ax1.set_ylabel('angular velocity', color=color)
-    ax1.plot(f.time.dt.time, f.angular_vel, color=color)
+    ax1.set_xlabel('time (s)')
+    ax1.set_ylabel('angular velocity (rad/s)', color=color)
+    ax1.plot(f.time.dt.time, abs(f.angular_vel), color=color)
     ax1.tick_params(axis='y', labelcolor=color)
     ax1.legend()
     plt.savefig(file_name +'.png')
@@ -55,9 +51,9 @@ def plot_time_ang_vel(file_name):
     j="angl_vel_vs_time"
     fig, ax1 = plt.subplots()
     color = 'red'
-    ax1.set_xlabel('angular displacement')
-    ax1.set_ylabel('angular velocity', color=color)
-    ax1.plot(t.ang_disp,ang_vel, color=color)
+    ax1.set_xlabel('angular displacement (rad)')
+    ax1.set_ylabel('angular velocity (rad/s)', color=color)
+    ax1.plot(w,ang_vel, color=color)
     ax1.tick_params(axis='y', labelcolor=color)
     ax1.legend()
     plt.savefig(file_name +"_"+j +"_"+'.png')
@@ -69,9 +65,10 @@ def plot_time_ang_vel(file_name):
     fig = plt.figure()
     ax = fig.add_subplot(111, projection='polar')
     ax.set_rlabel_position(-45)
-    c = ax.scatter(ang_vel, t.ang_disp,  c=colors, s=area, cmap='hsv', alpha=0.75)
+    c = ax.scatter(ang_vel, w,  c=colors, s=area, cmap='hsv', alpha=0.75)
     ax.set_title("angular velocity v/s angular displacement", va='bottom')
     ax.legend()
+    plt.colorbar(c)
     plt.savefig(file_name +"_"+l+"_"+'.png')
     plt.close()
 
