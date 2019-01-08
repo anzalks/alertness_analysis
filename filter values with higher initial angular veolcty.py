@@ -36,6 +36,7 @@ def collect_values(file_name, ax = None):
     h=rd[rd.index < tc]
     f=h[h.angular_vel < 0]
     f=pd.DataFrame.reset_index(f)
+
     if ax:    
         ax.plot(abs(f.encoder_val), abs(f.angular_vel))
     return f
